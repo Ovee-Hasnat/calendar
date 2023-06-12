@@ -14,6 +14,18 @@ export default function RootLayout({ children }) {
         <SessionProvider>{children}</SessionProvider>
         {/* <script src="https://apis.google.com/js/platform.js"></script> */}
         <Script src="https://apis.google.com/js/platform.js"></Script>
+        {/* <Script
+          async
+          defer
+          src="https://apis.google.com/js/api.js"
+          onload="gapiLoaded"
+        ></Script>
+        <Script
+          async
+          defer
+          src="https://accounts.google.com/gsi/client"
+          onload="gisLoaded"
+        ></Script> */}
       </body>
     </html>
   );

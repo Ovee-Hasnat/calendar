@@ -1,14 +1,16 @@
+"use-client";
+
 import React, { useState } from "react";
 import ApiCalendar from "react-google-calendar-api";
 
 const Calendar = () => {
-  const [sign, setSign] = useState();
-  console.log(sign);
-
   const config = {
     clientId:
-      "30076709390-kugsbm5f9ei1aenlal1nc0i0v6cnat9c.apps.googleusercontent.com",
-    apiKey: "AIzaSyDhinLYnJDBfKlCSYc7G564eIKcsOYj-w0",
+      "452401131066-fl9gos11pauaklk2286slgepb1c6u932.apps.googleusercontent.com",
+    // clientId:
+    //   "30076709390-kugsbm5f9ei1aenlal1nc0i0v6cnat9c.apps.googleusercontent.com",
+    apiKey: "AIzaSyDbJqpsxSxbpDU_5C6BuDzE0cwzgERlPCQ",
+    //apiKey: "AIzaSyDhinLYnJDBfKlCSYc7G564eIKcsOYj-w0",
     scope: "https://www.googleapis.com/auth/calendar",
     discoveryDocs: [
       "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
@@ -19,12 +21,14 @@ const Calendar = () => {
 
   const handleAuth = async () => {
     await apiCalendar.handleAuthClick();
-    setSign(apiCalendar.sign);
   };
 
   const handleSignOut = async () => {
     await apiCalendar.handleSignoutClick();
-    setSign(apiCalendar.sign);
+  };
+
+  const handleGetToken = () => {
+    console.log(apiCalendar.sign);
   };
 
   const handleGetEvents = () => {
@@ -47,20 +51,23 @@ const Calendar = () => {
       summary: "Poc Dev From Now",
       time: 480,
     };
-
-    apiCalendar
-      .createEventFromNow(eventFromNow)
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    try {
+      apiCalendar
+        .createEventFromNow(eventFromNow)
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log("You're not authenticated!");
+    }
   };
 
   return (
     <>
-      <div className="flex gap-4">
+      <div className="flex gap-4 flex-wrap justify-center">
         <button
           className="px-4 py-1 border border-red-700 rounded-md"
           onClick={handleAuth}
@@ -84,6 +91,12 @@ const Calendar = () => {
           onClick={handleAddEvents}
         >
           Add Event
+        </button>
+        <button
+          className="px-4 py-1 border border-red-700 rounded-md"
+          onClick={handleGetToken}
+        >
+          Get token
         </button>
       </div>
     </>
