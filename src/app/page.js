@@ -1,33 +1,20 @@
-"use client";
-
 import Calendar from "@/components/calendar";
-
-//import { signIn, signOut, useSession } from "next-auth/react";
+import UserMenu from "@/components/userMenu";
 
 export default function Home() {
-  //const session = useSession();
-  //console.log(session);
-
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold uppercase text-center">
-        Calendar using Google
+    <div>
+      <h1 className="font-extrabold text-transparent text-6xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 leading-tight w-fit md:mx-auto p-4">
+        Calendar <br /> using Google
       </h1>
-      {/* <div className="flex gap-6 p-6">
-        <button
-          className="p-2 border-2 rounded-md"
-          onClick={() => signIn("google")}
-        >
-          Login with Google
-        </button>
-        <button className="p-2 border-2 rounded-md" onClick={() => signOut()}>
-          Log out
+
+      {/* <div className="h-[calc(100vh-182px)] flex items-center justify-center">
+        <button className="py-2 px-6 border rounded-lg hover:shadow-md hover:shadow-slate-400/40">
+          Use google calendar
         </button>
       </div> */}
 
-      <div className="mt-20">
-        <Calendar />
-      </div>
+      <UserMenu />
     </div>
   );
 }
