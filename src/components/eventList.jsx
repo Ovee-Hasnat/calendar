@@ -4,13 +4,27 @@ import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "./loading";
+import UpdateEventForm from "./updateEventForm";
 
 const EventList = () => {
   const events = useSelector((state) => state.events);
 
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
+  const [updateId, setUpdateId] = useState(null);
+
+  const closeUpdateModal = () => {
+    setOpenUpdateModal(false);
+  };
+
+  const handleUpdate = (id) => {
+    setOpenUpdateModal(true);
+    setUpdateId(id);
+  };
+
+  // Sweet Alert
   const MySwal = withReactContent(Swal);
 
   const dispatch = useDispatch();
@@ -43,6 +57,12 @@ const EventList = () => {
     <div className="my-10 flex flex-wrap gap-6 items-center justify-around">
       {events.deleteFetching && <Loading />}
 
+      {openUpdateModal && (
+        <div className="fixed top-0 left-0 z-10">
+          <UpdateEventForm close={closeUpdateModal} id={updateId} />
+        </div>
+      )}
+
       {events.eventList.map((event) => (
         <div key={event.id} className="h-[90px]">
           <div className=" flex h-full items-center gap-1">
@@ -61,7 +81,10 @@ const EventList = () => {
               </div>
             </div>
             <div className="space-y-4">
-              <PencilSquareIcon className="text-pink-600 w-7 cursor-pointer" />
+              <PencilSquareIcon
+                className="text-pink-600 w-7 cursor-pointer"
+                onClick={() => handleUpdate(event.id)}
+              />
               <TrashIcon
                 className="text-pink-600 w-7 cursor-pointer"
                 onClick={() => handleDelete(event.id)}

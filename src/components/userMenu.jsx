@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getEvents, logout } from "@/Redux/apiCall";
 import CreateEventForm from "./createEventForm";
 import Loading from "./loading";
+import CalendarUI from "./calendar";
 
 const UserMenu = () => {
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ const UserMenu = () => {
           <CreateEventForm close={closeModal} />
         </div>
       )}
+
       {events.createFetching && <Loading />}
       <div className="max-w-5xl mx-auto p-4">
         <div className="text-center py-10 text-lg font-semibold">
@@ -66,7 +68,12 @@ const UserMenu = () => {
         <div>
           {events.isFetching && <Loading />}
           {events.error && alert("Error on the server side, Try again later!")}
-          {events.eventList && <EventList />}
+          {events.eventList && (
+            <div>
+              <CalendarUI />
+              <EventList />
+            </div>
+          )}
         </div>
       </div>
     </div>

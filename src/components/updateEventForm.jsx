@@ -1,16 +1,26 @@
+"use client";
+
 import { createEvent, getEvents } from "@/Redux/apiCall";
 import { XCircleIcon } from "@heroicons/react/24/outline";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import Loading from "./loading";
 
-const CreateEventForm = ({ close }) => {
-  const [summary, setSummary] = useState(null);
-  const [description, setDescription] = useState(null);
-  const [start, setStart] = useState(null);
-  const [end, setEnd] = useState(null);
+const UpdateEventForm = ({ close, id }) => {
+  const events = useSelector((state) => state.events);
+
+  //Get single event
+  let singleEvent = events.eventList.filter((event) => event.id == id);
+
+  const [summary, setSummary] = useState(singleEvent[0].summary);
+  const [description, setDescription] = useState(singleEvent[0].description);
+  const [start, setStart] = useState(
+    singleEvent[0].start.dateTime.slice(0, 16)
+  );
+  const [end, setEnd] = useState(singleEvent[0].end.dateTime.slice(0, 16));
   const [error, setError] = useState(false);
 
   const MySwal = withReactContent(Swal);
@@ -29,26 +39,24 @@ const CreateEventForm = ({ close }) => {
 
   const dispatch = useDispatch();
   const handleCreate = async () => {
-    if ((summary, description, start, end)) {
-      let res = await createEvent(dispatch, {
-        summary,
-        description,
-        start: start + ":00+06:00",
-        end: end + ":00+06:00",
-      });
-
-      await getEvents(dispatch);
-
-      if (res === 200) {
-        Toast.fire({
-          icon: "success",
-          title: "Event created successfully!!",
-        });
-        close();
-      }
-    } else {
-      setError(true);
-    }
+    // if ((summary, description, start, end)) {
+    //   let res = await createEvent(dispatch, {
+    //     summary,
+    //     description,
+    //     start: start + ":00+06:00",
+    //     end: end + ":00+06:00",
+    //   });
+    //   await getEvents(dispatch);
+    //   if (res === 200) {
+    //     Toast.fire({
+    //       icon: "success",
+    //       title: "Event created successfully!!",
+    //     });
+    //     close();
+    //   }
+    // } else {
+    //   setError(true);
+    // }
   };
 
   return (
@@ -61,7 +69,7 @@ const CreateEventForm = ({ close }) => {
               onClick={() => close()}
             />
             <h2 className="text-3xl text-center font-semibold my-4">
-              Create Event
+              Update Event
             </h2>
 
             <div className="my-7 px-8 font-extralight">
@@ -69,6 +77,7 @@ const CreateEventForm = ({ close }) => {
               <input
                 type="text"
                 className="bg-transparent border-b w-full rounded-md border-slate-500 focus:outline-none p-2 mb-4"
+                value={summary}
                 onChange={(e) => setSummary(e.target.value)}
               />
 
@@ -76,6 +85,7 @@ const CreateEventForm = ({ close }) => {
               <input
                 type="text"
                 className="bg-transparent border-b w-full rounded-md border-slate-500 focus:outline-none p-2 mb-4"
+                value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
 
@@ -83,6 +93,7 @@ const CreateEventForm = ({ close }) => {
               <input
                 type="datetime-local"
                 className="bg-transparent border-b w-full rounded-md border-slate-500 focus:outline-none p-2 mb-4 "
+                value={start}
                 onChange={(e) => setStart(e.target.value)}
               />
 
@@ -90,6 +101,7 @@ const CreateEventForm = ({ close }) => {
               <input
                 type="datetime-local"
                 className="bg-transparent border-b w-full rounded-md border-slate-500 focus:outline-none p-2 mb-4 "
+                value={end}
                 onChange={(e) => setEnd(e.target.value)}
               />
 
@@ -113,4 +125,4 @@ const CreateEventForm = ({ close }) => {
   );
 };
 
-export default CreateEventForm;
+export default UpdateEventForm;

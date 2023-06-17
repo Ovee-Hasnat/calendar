@@ -66,3 +66,15 @@ export const deleteEvent = async (dispatch, id) => {
     console.log(error.message);
   }
 };
+
+// export const getSingleEvent = async (dispatch, id) => {
+//   //dispatch(deleteStart());
+//   try {
+//     const res = await publicRequest.get(`/events/find/${id}`);
+//     //dispatch(deleteSuccess());
+//     return res.status;
+//   } catch (error) {
+//     alert("Error at the server side!");
+//     console.log(error.message);
+//   }
+// };
