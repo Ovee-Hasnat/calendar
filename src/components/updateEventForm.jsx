@@ -23,6 +23,8 @@ const UpdateEventForm = ({ close, id }) => {
   const [end, setEnd] = useState(singleEvent[0].end.dateTime.slice(0, 16));
   const [error, setError] = useState(false);
 
+  console.log(start);
+
   const MySwal = withReactContent(Swal);
 
   const Toast = MySwal.mixin({

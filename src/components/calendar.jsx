@@ -5,33 +5,39 @@ import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import interactionPlugin from "@fullcalendar/interaction";
 
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import CreateEventForm from "./createEventForm";
+import { useState } from "react";
+import EventDetails from "./eventDetails";
 
 const CalendarUI = () => {
   const events = useSelector((state) => state.events);
   const calendarEvents = [];
-  console.log("Event Array", calendarEvents);
 
-  useEffect(() => {
-    events.eventList.map((event) => {
-      let ev = {
-        title: event.summary,
-        start: new Date(event.start.dateTime),
-      };
-      calendarEvents.push(ev);
-    });
-  }, [events]);
+  events.eventList.map((event) => {
+    let ev = {
+      title: event.summary,
+      start: new Date(event.start.dateTime),
+      id: event.id,
+    };
+
+    calendarEvents.push(ev);
+  });
 
   const handleDateClick = (arg) => {
     // bind with an arrow function
-    alert(arg.dateStr);
+    //alert((arg.dateStr));
+    setCreateModalDate(arg.dateStr);
+    setOpenModal(true);
   };
 
   function renderEventContent(eventInfo) {
     //console.log(eventInfo);
     return (
-      <div>
-        <div className="w-2 h-2 rounded-full bg-white/70 md:hidden" />
+      <div
+        onClick={() => handleEventDetails(eventInfo.event.id)}
+        className="w-full"
+      >
+        <div className="w-2 h-2 rounded-full bg-pink-500 md:hidden" />
         <div className="hidden md:flex gap-1">
           <p className="font-semibold text-pink-600">{eventInfo.timeText}</p>
           <p className="italic text-sm truncate w-16 lg:w-20">
@@ -42,8 +48,37 @@ const CalendarUI = () => {
     );
   }
 
+  // Create event modal
+  const [openModal, setOpenModal] = useState(false);
+  const [createModalDate, setCreateModalDate] = useState(null);
+
+  const closeModal = () => {
+    setOpenModal(false);
+    setEventDetailsModal(false);
+  };
+
+  // Event Details Modal
+  const [eventDetailsModal, setEventDetailsModal] = useState(false);
+  const [eventDetailsID, setEventDetailsID] = useState("");
+
+  const handleEventDetails = (id) => {
+    setEventDetailsModal(true);
+    setEventDetailsID(id);
+  };
+
+  console.log(eventDetailsID);
+
   return (
     <div>
+      {openModal && (
+        <div className="fixed top-0 left-0 z-10">
+          <CreateEventForm close={closeModal} date={createModalDate} />
+        </div>
+      )}
+
+      {eventDetailsModal && (
+        <EventDetails id={eventDetailsID} close={closeModal} />
+      )}
       <div className="my-8">
         <FullCalendar
           plugins={[dayGridPlugin, interactionPlugin]}

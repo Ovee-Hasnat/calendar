@@ -54,45 +54,53 @@ const EventList = () => {
     });
   };
   return (
-    <div className="my-10 flex flex-wrap gap-6 items-center justify-around">
-      {events.deleteFetching && <Loading />}
+    <div>
+      <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 w-fit">
+        Upcoming Events -
+      </h2>
+      <div className="my-10 flex flex-wrap gap-6 items-center justify-around">
+        {events.deleteFetching && <Loading />}
 
-      {openUpdateModal && (
-        <div className="fixed top-0 left-0 z-10">
-          <UpdateEventForm close={closeUpdateModal} id={updateId} />
-        </div>
-      )}
+        {openUpdateModal && (
+          <div className="fixed top-0 left-0 z-10">
+            <UpdateEventForm close={closeUpdateModal} id={updateId} />
+          </div>
+        )}
 
-      {events.eventList.map((event) => (
-        <div key={event.id} className="h-[90px]">
-          <div className=" flex h-full items-center gap-1">
-            <div className="w-80 h-full bg-gradient-to-r from-purple-400 via-fuchsia-700 to-pink-600 p-0.5 rounded-md">
-              <div className="h-full bg-slate-900 p-2 rounded-md">
-                <div>
-                  <h4>{event.summary}</h4>
-                  <p></p>
-                </div>
-                <div>
-                  <p>{event.description}</p>
-                </div>
-                <div>
-                  <p>{event.start.dateTime}</p>
+        {events.eventList.map((event) => (
+          <div key={event.id} className="h-[90px]">
+            <div className=" flex h-full items-center gap-1">
+              <div className="w-80 h-full bg-gradient-to-r from-purple-400 via-fuchsia-700 to-pink-600 p-0.5 rounded-md">
+                <div className="h-full bg-slate-900 p-2 rounded-md flex flex-col justify-evenly">
+                  <div>
+                    <h4 className="capitalize">{event.summary}</h4>
+                  </div>
+                  <div>
+                    <p className="italic text-sm opacity-50">
+                      {event.description}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm opacity-60 w-fit ml-auto font-thin">
+                      {new Date(event.start.dateTime).toLocaleString()}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="space-y-4">
-              <PencilSquareIcon
-                className="text-pink-600 w-7 cursor-pointer"
-                onClick={() => handleUpdate(event.id)}
-              />
-              <TrashIcon
-                className="text-pink-600 w-7 cursor-pointer"
-                onClick={() => handleDelete(event.id)}
-              />
+              <div className="space-y-4">
+                <PencilSquareIcon
+                  className="text-pink-600 w-7 cursor-pointer"
+                  onClick={() => handleUpdate(event.id)}
+                />
+                <TrashIcon
+                  className="text-pink-600 w-7 cursor-pointer"
+                  onClick={() => handleDelete(event.id)}
+                />
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };

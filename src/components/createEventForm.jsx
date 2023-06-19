@@ -6,10 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-const CreateEventForm = ({ close }) => {
+const CreateEventForm = ({ close, date }) => {
   const [summary, setSummary] = useState(null);
   const [description, setDescription] = useState(null);
-  const [start, setStart] = useState(null);
+  const [start, setStart] = useState(date + "T00:00" || null);
   const [end, setEnd] = useState(null);
   const [error, setError] = useState(false);
 
@@ -83,6 +83,7 @@ const CreateEventForm = ({ close }) => {
               <input
                 type="datetime-local"
                 className="bg-transparent border-b w-full rounded-md border-slate-500 focus:outline-none p-2 mb-4 "
+                value={start}
                 onChange={(e) => setStart(e.target.value)}
               />
 
