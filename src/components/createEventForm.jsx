@@ -29,7 +29,8 @@ const CreateEventForm = ({ close, date }) => {
 
   const dispatch = useDispatch();
   const handleCreate = async () => {
-    if ((summary, description, start, end)) {
+    if ((summary != null, description, start, end)) {
+      console.log("s", summary, "e", description, start, end);
       let res = await createEvent(dispatch, {
         summary,
         description,

@@ -1,6 +1,6 @@
 "use client";
 
-import { createEvent, getEvents } from "@/Redux/apiCall";
+import { createEvent, getEvents, updateEvent } from "@/Redux/apiCall";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,8 +23,6 @@ const UpdateEventForm = ({ close, id }) => {
   const [end, setEnd] = useState(singleEvent[0].end.dateTime.slice(0, 16));
   const [error, setError] = useState(false);
 
-  console.log(start);
-
   const MySwal = withReactContent(Swal);
 
   const Toast = MySwal.mixin({
@@ -40,30 +38,32 @@ const UpdateEventForm = ({ close, id }) => {
   });
 
   const dispatch = useDispatch();
-  const handleCreate = async () => {
-    // if ((summary, description, start, end)) {
-    //   let res = await createEvent(dispatch, {
-    //     summary,
-    //     description,
-    //     start: start + ":00+06:00",
-    //     end: end + ":00+06:00",
-    //   });
-    //   await getEvents(dispatch);
-    //   if (res === 200) {
-    //     Toast.fire({
-    //       icon: "success",
-    //       title: "Event created successfully!!",
-    //     });
-    //     close();
-    //   }
-    // } else {
-    //   setError(true);
-    // }
+  const handleUpdate = async (id) => {
+    console.log(start, end);
+    if ((summary, description, start, end)) {
+      let rawData = {
+        summary,
+        description,
+        start: start + ":00+06:00",
+        end: end + ":00+06:00",
+      };
+      let res = await updateEvent(dispatch, id, rawData);
+      await getEvents(dispatch);
+      if (res === 200) {
+        Toast.fire({
+          icon: "success",
+          title: "Updated successfully!!",
+        });
+        close();
+      }
+    } else {
+      setError(true);
+    }
   };
 
   return (
     <div>
-      <div className="h-screen w-screen flex justify-center items-center bg-black/80 ">
+      <div className="h-screen w-screen flex justify-center items-center bg-black/80 fixed top-0 left-0 z-20">
         <div className="max-w-lg w-4/5 mx-auto bg-gradient-to-r from-purple-400 via-fuchsia-700 to-pink-600 p-1 rounded-md">
           <div className="relative h-full bg-slate-900 p-2 rounded-md">
             <XCircleIcon
@@ -115,9 +115,9 @@ const UpdateEventForm = ({ close, id }) => {
 
               <button
                 className="py-2 px-10 border rounded-lg mt-8 border-slate-500 hover:shadow-lg hover:shadow-slate-800 block mx-auto"
-                onClick={handleCreate}
+                onClick={() => handleUpdate(id)}
               >
-                Create now
+                Update
               </button>
             </div>
           </div>

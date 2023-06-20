@@ -1,27 +1,28 @@
-"use-client";
-
 import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import interactionPlugin from "@fullcalendar/interaction";
 
 import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import CreateEventForm from "./createEventForm";
-import { useState } from "react";
 import EventDetails from "./eventDetails";
 
 const CalendarUI = () => {
   const events = useSelector((state) => state.events);
-  const calendarEvents = [];
+  let calendarEvents = [];
 
-  events.eventList.map((event) => {
-    let ev = {
-      title: event.summary,
-      start: new Date(event.start.dateTime),
-      id: event.id,
-    };
+  const getCalEvents = () => {
+    events?.eventList.map((event) => {
+      let ev = {
+        title: event.summary,
+        start: new Date(event.start.dateTime || event.start.date),
+        id: event.id,
+      };
 
-    calendarEvents.push(ev);
-  });
+      calendarEvents.push(ev);
+    });
+  };
+  getCalEvents();
 
   const handleDateClick = (arg) => {
     // bind with an arrow function
@@ -66,7 +67,7 @@ const CalendarUI = () => {
     setEventDetailsID(id);
   };
 
-  console.log(eventDetailsID);
+  //console.log(eventDetailsID);
 
   return (
     <div>
@@ -80,34 +81,24 @@ const CalendarUI = () => {
         <EventDetails id={eventDetailsID} close={closeModal} />
       )}
       <div className="my-8">
-        <FullCalendar
-          plugins={[dayGridPlugin, interactionPlugin]}
-          dateClick={handleDateClick}
-          initialView="dayGridMonth"
-          eventContent={renderEventContent}
-          nowIndicator={true}
-          editable={true}
-          selectable={true}
-          selectMirror={true}
-          initialEvents={calendarEvents}
-          /*  
-          [
-            {
-              title:
-                "nice event with a long title to check the space it takes. letsss goooo",
-              start: new Date("2023-06-20T20:50:00+06:00"),
-            },
-            {
-              title: "bad event",
-              start: new Date(),
-            },
-            {
-              title: "bad event",
-              start: new Date().setHours(18),
-            },
-          ]}
-          */
-        />
+        {calendarEvents.length > 0 && (
+          <>
+            <FullCalendar
+              plugins={[dayGridPlugin, interactionPlugin]}
+              dateClick={handleDateClick}
+              initialView="dayGridMonth"
+              eventContent={renderEventContent}
+              nowIndicator={true}
+              editable={true}
+              selectable={true}
+              selectMirror={true}
+              initialEvents={[]}
+              events={calendarEvents}
+            />
+            <h1 className="inline-block text-8xl">{calendarEvents.length}</h1>
+            <p className="inline text-lg">Total events</p>
+          </>
+        )}
       </div>
     </div>
   );

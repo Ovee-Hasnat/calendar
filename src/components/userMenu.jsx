@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EventList from "./eventList";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getEvents, logout } from "@/Redux/apiCall";
+import { getCalendarEvents, getEvents, logout } from "@/Redux/apiCall";
 import CreateEventForm from "./createEventForm";
 import Loading from "./loading";
 import CalendarUI from "./calendar";
@@ -20,6 +20,7 @@ const UserMenu = () => {
   };
 
   const handleGetEvents = () => {
+    //getCalendarEvents(dispatch);
     getEvents(dispatch);
   };
 

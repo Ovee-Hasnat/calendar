@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "./loading";
 import UpdateEventForm from "./updateEventForm";
+import CalendarUI from "./calendar";
 
 const EventList = () => {
   const events = useSelector((state) => state.events);
@@ -58,7 +59,7 @@ const EventList = () => {
       <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 w-fit">
         Upcoming Events -
       </h2>
-      <div className="my-10 flex flex-wrap gap-6 items-center justify-around">
+      <div className="my-10 flex lg:block flex-wrap gap-6 items-center justify-around">
         {events.deleteFetching && <Loading />}
 
         {openUpdateModal && (

@@ -1,6 +1,9 @@
 import { logOut, loginFailure, loginStart, loginSuccess } from "./userSlice";
 import { publicRequest } from "../requestMethod";
 import {
+  calendarEventFailure,
+  calendarEventStart,
+  calendarEventSuccess,
   clearEventList,
   createEventStart,
   createEventSuccess,
@@ -9,6 +12,8 @@ import {
   eventFetchingFailure,
   eventFetchingStart,
   eventFetchingSuccess,
+  updateStart,
+  updateSuccess,
 } from "./eventSlice";
 
 export const login = async (dispatch) => {
@@ -35,7 +40,7 @@ export const logout = async (dispatch) => {
 export const getEvents = async (dispatch) => {
   dispatch(eventFetchingStart());
   try {
-    const res = await publicRequest.get("/events/allevents");
+    const res = await publicRequest.get("/events/getcalendarevents");
     dispatch(eventFetchingSuccess(res.data));
   } catch (error) {
     dispatch(eventFetchingFailure());
@@ -67,14 +72,15 @@ export const deleteEvent = async (dispatch, id) => {
   }
 };
 
-// export const getSingleEvent = async (dispatch, id) => {
-//   //dispatch(deleteStart());
-//   try {
-//     const res = await publicRequest.get(`/events/find/${id}`);
-//     //dispatch(deleteSuccess());
-//     return res.status;
-//   } catch (error) {
-//     alert("Error at the server side!");
-//     console.log(error.message);
-//   }
-// };
+export const updateEvent = async (dispatch, id, rawData) => {
+  console.log(id, rawData);
+  dispatch(updateStart());
+  try {
+    const res = await publicRequest.put(`/events/${id}`, rawData);
+    dispatch(updateSuccess());
+    return res.status;
+  } catch (error) {
+    alert("Error at the server side!");
+    console.log(error.message);
+  }
+};
