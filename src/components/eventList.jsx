@@ -56,22 +56,22 @@ const EventList = () => {
   };
   return (
     <div>
-      <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 w-fit">
-        Upcoming Events -
+      <h2 className="text-3xl font-bold leading-normal text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 w-fit">
+        Upcoming Events
       </h2>
-      <div className="my-10 flex lg:block flex-wrap gap-6 items-center justify-around">
-        {events.deleteFetching && <Loading />}
+      {events.deleteFetching && <Loading />}
 
-        {openUpdateModal && (
-          <div className="fixed top-0 left-0 z-10">
-            <UpdateEventForm close={closeUpdateModal} id={updateId} />
-          </div>
-        )}
+      {openUpdateModal && (
+        <div className="fixed top-0 left-0 z-10">
+          <UpdateEventForm close={closeUpdateModal} id={updateId} />
+        </div>
+      )}
 
+      <div className="my-6 flex xl:block xl:space-y-4 flex-wrap gap-6 items-center justify-around h-[700px] overflow-y-scroll scrollbar-thin scrollbar-thumb-slate-800 scrollbar-thumb-rounded-md">
         {events.eventList.map((event) => (
           <div key={event.id} className="h-[90px]">
             <div className=" flex h-full items-center gap-1">
-              <div className="w-80 h-full bg-gradient-to-r from-purple-400 via-fuchsia-700 to-pink-600 p-0.5 rounded-md">
+              <div className="w-72 h-full bg-gradient-to-r from-purple-400 via-fuchsia-700 to-pink-600 p-0.5 rounded-md">
                 <div className="h-full bg-slate-900 p-2 rounded-md flex flex-col justify-evenly">
                   <div>
                     <h4 className="capitalize">{event.summary}</h4>
@@ -83,7 +83,7 @@ const EventList = () => {
                   </div>
                   <div>
                     <p className="text-sm opacity-60 w-fit ml-auto font-thin">
-                      {new Date(event.start.dateTime).toLocaleString()}
+                      {new Date(event.start.dateTime || event.start.date).toLocaleString()}
                     </p>
                   </div>
                 </div>

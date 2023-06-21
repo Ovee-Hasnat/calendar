@@ -92,10 +92,16 @@ const EventDetails = ({ id, close }) => {
               </div>
               <div className="font-thin font-mono">
                 <p>
-                  Start: {new Date(singleEvent.start.dateTime).toLocaleString()}
+                  Start:{" "}
+                  {new Date(
+                    singleEvent.start.dateTime || singleEvent.start.date
+                  ).toLocaleString()}
                 </p>
                 <p>
-                  End: {new Date(singleEvent.end.dateTime).toLocaleString()}
+                  End:{" "}
+                  {new Date(
+                    singleEvent.end.dateTime || singleEvent.start.date
+                  ).toLocaleString()}
                 </p>
               </div>
               <div className="font-thin">

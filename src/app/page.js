@@ -17,9 +17,6 @@ export default function Home() {
 
   return (
     <div>
-      {/* <div>
-        <Loading />
-      </div> */}
       <h1 className="font-extrabold text-transparent text-6xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 leading-tight w-fit md:mx-auto p-4">
         Calendar <br /> using Google
       </h1>

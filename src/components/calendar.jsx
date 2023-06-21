@@ -80,7 +80,7 @@ const CalendarUI = () => {
       {eventDetailsModal && (
         <EventDetails id={eventDetailsID} close={closeModal} />
       )}
-      <div className="my-8">
+      <div className="">
         {calendarEvents.length > 0 && (
           <>
             <FullCalendar
@@ -95,8 +95,12 @@ const CalendarUI = () => {
               initialEvents={[]}
               events={calendarEvents}
             />
-            <h1 className="inline-block text-8xl">{calendarEvents.length}</h1>
-            <p className="inline text-lg">Total events</p>
+            <div className="w-fit ml-auto">
+              <p className="inline text-lg opacity-60">Total events</p>
+              <h1 className="inline-block text-8xl font-semibold">
+                {calendarEvents.length}
+              </h1>
+            </div>
           </>
         )}
       </div>
