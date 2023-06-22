@@ -84,3 +84,14 @@ export const updateEvent = async (dispatch, id, rawData) => {
     console.log(error.message);
   }
 };
+
+export const outlookLogin = async (dispatch) => {
+  //dispatch(loginStart());
+  try {
+    const res = await publicRequest.get("/outlook/login");
+    console.log(res);
+    //dispatch(loginSuccess(res.data));
+  } catch (err) {
+    //dispatch(loginFailure());
+  }
+};
